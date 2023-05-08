@@ -66,7 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'uts';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="1.INI ADALAH TUGAS PERTAMAN SAYA MENGGUNAKAN HAMMING DISTANCE UNTUK MENGUKUR JARAK" href="tugas1.html" />
+    <link rel="next" title="UTS" href="ulangan.html" />
+    <link rel="prev" title="tugas decision tree" href="decision_tree.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,7 +161,9 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tugas1.html">1.INI ADALAH TUGAS PERTAMAN SAYA MENGGUNAKAN HAMMING DISTANCE UNTUK MENGUKUR JARAK</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="decision_tree.html">tugas decision tree</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">UTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ulangan.html">UTS</a></li>
 </ul>
 
     </div>
@@ -398,11 +401,67 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     age  sex  cp  trestbps  chol  fbs  restecg  thalach  exang  oldpeak  \
+0     63    1   3       145   233    1        0      150      0      2.3   
+1     37    1   2       130   250    0        1      187      0      3.5   
+2     41    0   1       130   204    0        0      172      0      1.4   
+3     56    1   1       120   236    0        1      178      0      0.8   
+4     57    0   0       120   354    0        1      163      1      0.6   
+..   ...  ...  ..       ...   ...  ...      ...      ...    ...      ...   
+298   57    0   0       140   241    0        1      123      1      0.2   
+299   45    1   3       110   264    0        1      132      0      1.2   
+300   68    1   0       144   193    1        1      141      0      3.4   
+301   57    1   0       130   131    0        1      115      1      1.2   
+302   57    0   1       130   236    0        0      174      0      0.0   
+
+     slope  ca  thal  target  
+0        0   0     1       1  
+1        0   0     2       1  
+2        2   0     2       1  
+3        2   0     2       1  
+4        2   0     2       1  
+..     ...  ..   ...     ...  
+298      1   0     3       0  
+299      1   0     3       0  
+300      1   2     3       0  
+301      1   1     3       0  
+302      1   1     2       0  
+
+[303 rows x 14 columns]
+</pre></div>
+</div>
+</div>
 </div>
 <p>selanjutnya yang di lakukan adalah untuk mengecek misssing value apabilah ada missing value akan di gunakan KNN untuk mencari data yang hilang tersebut</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 303 entries, 0 to 302
+Data columns (total 14 columns):
+ #   Column    Non-Null Count  Dtype  
+---  ------    --------------  -----  
+ 0   age       303 non-null    int64  
+ 1   sex       303 non-null    int64  
+ 2   cp        303 non-null    int64  
+ 3   trestbps  303 non-null    int64  
+ 4   chol      303 non-null    int64  
+ 5   fbs       303 non-null    int64  
+ 6   restecg   303 non-null    int64  
+ 7   thalach   303 non-null    int64  
+ 8   exang     303 non-null    int64  
+ 9   oldpeak   303 non-null    float64
+ 10  slope     303 non-null    int64  
+ 11  ca        303 non-null    int64  
+ 12  thal      303 non-null    int64  
+ 13  target    303 non-null    int64  
+dtypes: float64(1), int64(13)
+memory usage: 33.3 KB
 </pre></div>
 </div>
 </div>
@@ -414,11 +473,191 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>cp</th>
+      <th>trestbps</th>
+      <th>chol</th>
+      <th>fbs</th>
+      <th>restecg</th>
+      <th>thalach</th>
+      <th>exang</th>
+      <th>oldpeak</th>
+      <th>slope</th>
+      <th>ca</th>
+      <th>thal</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+      <td>303.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>54.366337</td>
+      <td>0.683168</td>
+      <td>0.966997</td>
+      <td>131.623762</td>
+      <td>246.264026</td>
+      <td>0.148515</td>
+      <td>0.528053</td>
+      <td>149.646865</td>
+      <td>0.326733</td>
+      <td>1.039604</td>
+      <td>1.399340</td>
+      <td>0.729373</td>
+      <td>2.313531</td>
+      <td>0.544554</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>9.082101</td>
+      <td>0.466011</td>
+      <td>1.032052</td>
+      <td>17.538143</td>
+      <td>51.830751</td>
+      <td>0.356198</td>
+      <td>0.525860</td>
+      <td>22.905161</td>
+      <td>0.469794</td>
+      <td>1.161075</td>
+      <td>0.616226</td>
+      <td>1.022606</td>
+      <td>0.612277</td>
+      <td>0.498835</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>29.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>94.000000</td>
+      <td>126.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>71.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>47.500000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>120.000000</td>
+      <td>211.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>133.500000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>55.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>130.000000</td>
+      <td>240.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>153.000000</td>
+      <td>0.000000</td>
+      <td>0.800000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>61.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>140.000000</td>
+      <td>274.500000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>166.000000</td>
+      <td>1.000000</td>
+      <td>1.600000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>77.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>200.000000</td>
+      <td>564.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>202.000000</td>
+      <td>1.000000</td>
+      <td>6.200000</td>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>lalu cek ukuran datanya</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(303, 14)
 </pre></div>
 </div>
 </div>
@@ -431,6 +670,9 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/e68cab0e8e6fecfe6613efb71ac542d6bf037037e62d07a611890239d42ab351.png" src="_images/e68cab0e8e6fecfe6613efb71ac542d6bf037037e62d07a611890239d42ab351.png" />
+</div>
 </div>
 <p>lalu kita pisahkan antara fiture dan label</p>
 <div class="cell docutils container">
@@ -440,12 +682,140 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>cp</th>
+      <th>trestbps</th>
+      <th>chol</th>
+      <th>fbs</th>
+      <th>restecg</th>
+      <th>thalach</th>
+      <th>exang</th>
+      <th>oldpeak</th>
+      <th>slope</th>
+      <th>ca</th>
+      <th>thal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>63</td>
+      <td>1</td>
+      <td>3</td>
+      <td>145</td>
+      <td>233</td>
+      <td>1</td>
+      <td>0</td>
+      <td>150</td>
+      <td>0</td>
+      <td>2.3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>130</td>
+      <td>250</td>
+      <td>0</td>
+      <td>1</td>
+      <td>187</td>
+      <td>0</td>
+      <td>3.5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>41</td>
+      <td>0</td>
+      <td>1</td>
+      <td>130</td>
+      <td>204</td>
+      <td>0</td>
+      <td>0</td>
+      <td>172</td>
+      <td>0</td>
+      <td>1.4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>56</td>
+      <td>1</td>
+      <td>1</td>
+      <td>120</td>
+      <td>236</td>
+      <td>0</td>
+      <td>1</td>
+      <td>178</td>
+      <td>0</td>
+      <td>0.8</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>57</td>
+      <td>0</td>
+      <td>0</td>
+      <td>120</td>
+      <td>354</td>
+      <td>0</td>
+      <td>1</td>
+      <td>163</td>
+      <td>1</td>
+      <td>0.6</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>dan ini adalah labelnya yang telah di pisahkan</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    1
+1    1
+2    1
+3    1
+4    1
+Name: target, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -463,6 +833,23 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 0.9521966   0.68100522  1.97312292 ... -2.27457861 -0.71442887
+  -2.14887271]
+ [-1.91531289  0.68100522  1.00257707 ... -2.27457861 -0.71442887
+  -0.51292188]
+ [-1.47415758 -1.46841752  0.03203122 ...  0.97635214 -0.71442887
+  -0.51292188]
+ ...
+ [ 1.50364073  0.68100522 -0.93851463 ... -0.64911323  1.24459328
+   1.12302895]
+ [ 0.29046364  0.68100522 -0.93851463 ... -0.64911323  0.26508221
+   1.12302895]
+ [ 0.29046364 -1.46841752  0.03203122 ... -0.64911323  0.26508221
+  -0.51292188]]
+</pre></div>
+</div>
+</div>
 </div>
 <p>membagi data menjadi data latih dan data uji</p>
 <div class="cell docutils container">
@@ -470,6 +857,227 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="n">bagi</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">bagi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([[-1.36386876,  0.68100522,  0.03203122, ...,  0.97635214,
+        -0.71442887, -0.51292188],
+       [ 0.40075247,  0.68100522, -0.93851463, ...,  0.97635214,
+        -0.71442887,  1.12302895],
+       [-0.92271345,  0.68100522,  1.00257707, ..., -0.64911323,
+        -0.71442887, -0.51292188],
+       ...,
+       [ 1.61392956,  0.68100522,  1.97312292, ..., -0.64911323,
+         0.26508221, -0.51292188],
+       [-0.92271345,  0.68100522, -0.93851463, ...,  0.97635214,
+        -0.71442887,  1.12302895],
+       [ 0.9521966 , -1.46841752,  0.03203122, ...,  0.97635214,
+         1.24459328, -0.51292188]]), array([[ 0.29046364,  0.68100522, -0.93851463,  1.04952029,  0.57466203,
+        -0.41763453, -1.00583187, -1.6463164 ,  1.43548113, -0.37924438,
+        -0.64911323,  0.26508221, -2.14887271],
+       [ 0.5110413 ,  0.68100522,  1.97312292,  2.19177836,  0.80656782,
+        -0.41763453, -1.00583187,  0.40901733, -0.69663055, -0.7243226 ,
+        -0.64911323, -0.71442887,  1.12302895],
+       [ 0.29046364,  0.68100522,  1.00257707,  1.04952029, -2.32416031,
+         2.394438  ,  0.89896224,  1.0212444 , -0.69663055, -0.7243226 ,
+         0.97635214,  0.26508221,  1.12302895],
+       [ 0.18017482, -1.46841752, -0.93851463,  0.13571383,  3.14495118,
+        -0.41763453, -1.00583187,  0.01544279,  1.43548113,  0.74225984,
+        -0.64911323,  1.24459328,  1.12302895],
+       [ 1.83450721, -1.46841752,  1.00257707, -1.23499586,  0.36208173,
+         2.394438  , -1.00583187, -0.85916731, -0.69663055, -0.89686172,
+         0.97635214,  0.26508221, -0.51292188],
+       [ 0.29046364,  0.68100522,  1.00257707,  1.04952029, -1.51249006,
+        -0.41763453,  0.89896224,  1.0649749 , -0.69663055,  0.48345117,
+         0.97635214, -0.71442887, -0.51292188],
+       [-0.92271345, -1.46841752, -0.93851463,  0.36416545, -0.06307888,
+        -0.41763453, -1.00583187,  0.1029038 ,  1.43548113, -0.89686172,
+        -0.64911323, -0.71442887, -0.51292188],
+       [ 0.18017482, -1.46841752, -0.93851463,  3.90516547,  0.80656782,
+         2.394438  , -1.00583187, -0.7279758 ,  1.43548113,  2.55392051,
+        -2.27457861,  1.24459328,  1.12302895],
+       [-0.04040284,  0.68100522, -0.93851463, -0.54964101,  0.76791685,
+        -0.41763453, -1.00583187, -1.47139438,  1.43548113,  1.86376406,
+        -0.64911323,  1.24459328, -0.51292188],
+       [-0.04040284,  0.68100522,  1.00257707, -0.3783023 ,  0.51668558,
+        -0.41763453, -1.00583187,  0.1029038 , -0.69663055, -0.46551394,
+        -2.27457861,  0.26508221, -0.51292188],
+       [ 0.29046364,  0.68100522, -0.93851463,  0.47839125, -1.04867848,
+        -0.41763453,  0.89896224, -0.07201822, -0.69663055, -0.55178349,
+        -0.64911323, -0.71442887, -2.14887271],
+       [ 0.5110413 ,  0.68100522,  1.97312292,  2.64868159,  0.45870914,
+        -0.41763453, -1.00583187, -0.20320974, -0.69663055,  2.72645962,
+        -2.27457861, -0.71442887,  1.12302895],
+       [-0.26098049,  0.68100522,  0.03203122, -0.66386682,  1.52161066,
+        -0.41763453,  0.89896224,  0.97751389, -0.69663055, -0.7243226 ,
+         0.97635214, -0.71442887, -0.51292188],
+       [-1.58444641,  0.68100522, -0.93851463, -1.23499586, -1.53181554,
+        -0.41763453, -1.00583187, -1.55885539,  1.43548113,  0.82852939,
+        -0.64911323, -0.71442887,  1.12302895],
+       [-0.92271345, -1.46841752,  0.03203122, -1.52056038, -0.81677269,
+        -0.41763453,  0.89896224,  0.97751389, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [-1.1432911 ,  0.68100522,  1.00257707,  0.47839125, -0.21768274,
+        -0.41763453, -1.00583187,  1.32735793, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [-2.24617937, -1.46841752,  0.03203122, -0.77809263, -0.7008198 ,
+        -0.41763453,  0.89896224,  1.85212399, -0.69663055, -0.29297483,
+         0.97635214, -0.71442887, -0.51292188],
+       [-0.04040284,  0.68100522, -0.93851463, -0.66386682, -1.12598041,
+        -0.41763453,  0.89896224, -1.6025859 , -0.69663055,  0.31091206,
+        -0.64911323,  0.26508221,  1.12302895],
+       [-0.92271345,  0.68100522, -0.93851463,  0.47839125,  1.25105391,
+        -0.41763453,  0.89896224, -1.29647236,  1.43548113,  0.65599028,
+        -0.64911323,  1.24459328,  1.12302895],
+       [ 0.73161895,  0.68100522, -0.93851463,  0.36416545, -1.55114102,
+        -0.41763453, -1.00583187, -1.07781984,  1.43548113,  2.20884228,
+        -0.64911323,  0.26508221, -0.51292188],
+       [ 1.06248543,  0.68100522,  1.97312292,  2.19177836, -0.3722866 ,
+        -0.41763453, -1.00583187,  0.23409531, -0.69663055, -0.37924438,
+        -0.64911323, -0.71442887,  1.12302895],
+       [ 0.18017482,  0.68100522, -0.93851463, -0.09273778,  0.70994041,
+         2.394438  , -1.00583187, -2.03989095,  1.43548113,  0.48345117,
+        -2.27457861, -0.71442887,  1.12302895],
+       [ 1.39335191,  0.68100522, -0.93851463, -0.66386682, -0.17903178,
+        -0.41763453,  0.89896224, -3.4392671 , -0.69663055, -0.03416616,
+        -0.64911323, -0.71442887, -0.51292188],
+       [ 1.83450721, -1.46841752,  0.03203122,  1.62064933,  1.07712457,
+        -0.41763453,  0.89896224,  0.54020884, -0.69663055, -0.55178349,
+         0.97635214,  1.24459328, -0.51292188],
+       [-1.1432911 , -1.46841752,  1.00257707, -0.77809263, -0.08240437,
+        -0.41763453,  0.89896224, -0.02828772, -0.69663055, -0.63805305,
+        -0.64911323,  0.26508221, -0.51292188],
+       [-1.58444641,  0.68100522, -0.93851463,  1.1637461 , -0.44958853,
+        -0.41763453,  0.89896224,  1.37108844, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887,  1.12302895],
+       [ 0.5110413 ,  0.68100522,  1.97312292,  1.62064933,  0.51668558,
+        -0.41763453, -1.00583187, -1.07781984, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [-0.37126932,  0.68100522, -0.93851463,  0.47839125,  0.2847798 ,
+        -0.41763453, -1.00583187,  1.58974096,  1.43548113, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [ 0.29046364,  0.68100522, -0.93851463,  1.90621384,  0.8258933 ,
+         2.394438  , -1.00583187, -1.12155034, -0.69663055, -0.03416616,
+        -0.64911323,  2.22410436,  1.12302895],
+       [-0.48155814, -1.46841752, -0.93851463, -1.23499586,  0.14950142,
+        -0.41763453, -1.00583187,  0.40901733, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [ 1.06248543,  0.68100522, -0.93851463, -0.20696359,  0.32343076,
+        -0.41763453,  0.89896224, -1.95242994,  1.43548113, -0.7243226 ,
+        -0.64911323,  0.26508221,  1.12302895],
+       [ 0.73161895,  0.68100522, -0.93851463,  0.47839125, -0.75879625,
+        -0.41763453, -1.00583187, -0.50932327,  1.43548113,  0.74225984,
+         0.97635214,  0.26508221,  1.12302895],
+       [ 0.84190778,  0.68100522, -0.93851463, -0.66386682,  0.40073269,
+        -0.41763453,  0.89896224, -2.21481297,  1.43548113,  0.65599028,
+        -0.64911323,  1.24459328,  1.12302895],
+       [-1.03300228,  0.68100522, -0.93851463, -1.57767328, -0.73947076,
+        -0.41763453, -1.00583187, -0.07201822,  1.43548113,  1.69122495,
+        -0.64911323, -0.71442887, -0.51292188],
+       [ 1.28306308, -1.46841752,  1.97312292,  1.04952029, -0.39161208,
+        -0.41763453,  0.89896224, -1.55885539, -0.69663055,  1.34614673,
+        -2.27457861, -0.71442887, -0.51292188],
+       [ 0.9521966 ,  0.68100522, -0.93851463, -0.09273778,  0.14950142,
+        -0.41763453, -1.00583187, -0.11574873, -0.69663055,  0.31091206,
+        -0.64911323,  0.26508221,  1.12302895],
+       [-0.37126932,  0.68100522,  1.00257707, -0.3783023 , -0.02442792,
+         2.394438  , -1.00583187,  0.71513086, -0.69663055,  1.17360762,
+        -0.64911323, -0.71442887, -0.51292188],
+       [-0.7021358 ,  0.68100522,  1.00257707, -0.43541521,  0.1688269 ,
+         2.394438  ,  0.89896224,  1.10870541, -0.69663055, -0.89686172,
+         0.97635214,  1.24459328, -0.51292188],
+       [-1.58444641,  0.68100522,  1.97312292,  0.47839125, -0.91340011,
+        -0.41763453,  0.89896224,  1.23989692,  1.43548113,  0.31091206,
+         0.97635214, -0.71442887,  1.12302895],
+       [-1.03300228,  0.68100522, -0.93851463, -0.94943134,  0.26545431,
+        -0.41763453, -1.00583187,  1.54601046, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [-0.26098049,  0.68100522,  1.00257707,  0.36416545, -0.44958853,
+        -0.41763453,  0.89896224,  0.84632238, -0.69663055, -0.89686172,
+         0.97635214,  3.20361543, -0.51292188],
+       [ 0.5110413 ,  0.68100522,  0.03203122,  0.47839125, -0.4882395 ,
+        -0.41763453,  0.89896224,  0.62766985,  1.43548113, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [ 0.84190778,  0.68100522,  0.03203122, -0.20696359, -0.73947076,
+         2.394438  , -1.00583187, -0.42186226, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [-1.47415758,  0.68100522,  1.00257707, -0.09273778, -0.62351787,
+        -0.41763453, -1.00583187,  0.80259187, -0.69663055,  0.82852939,
+        -0.64911323, -0.71442887, -0.51292188],
+       [-1.1432911 ,  0.68100522,  0.03203122, -0.66386682,  0.32343076,
+        -0.41763453,  0.89896224,  1.0212444 , -0.69663055, -0.89686172,
+         0.97635214, -0.71442887,  1.12302895],
+       [-1.25357993,  0.68100522, -0.93851463,  0.02148802,  0.01422304,
+         2.394438  , -1.00583187, -0.29067075,  1.43548113, -0.81059216,
+        -0.64911323,  3.20361543,  1.12302895],
+       [-0.26098049,  0.68100522, -0.93851463, -0.20696359, -0.81677269,
+         2.394438  ,  0.89896224,  0.27782582,  1.43548113, -0.03416616,
+        -0.64911323, -0.71442887, -3.78482354],
+       [-0.26098049,  0.68100522,  0.03203122, -0.20696359, -0.79744721,
+         2.394438  ,  0.89896224,  1.50227995, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [ 0.40075247, -1.46841752, -0.93851463,  2.19177836, -0.41093757,
+         2.394438  , -1.00583187, -0.15947923,  1.43548113,  1.51868584,
+        -0.64911323,  1.24459328, -2.14887271],
+       [ 0.06988599,  0.68100522, -0.93851463,  1.62064933,  0.8258933 ,
+        -0.41763453, -1.00583187, -0.20320974,  1.43548113, -0.20670527,
+        -0.64911323,  0.26508221,  1.12302895],
+       [-0.7021358 ,  0.68100522, -0.93851463, -0.09273778,  0.18815239,
+         2.394438  , -1.00583187,  0.01544279,  1.43548113, -0.89686172,
+         0.97635214,  1.24459328,  1.12302895],
+       [-1.03300228,  0.68100522, -0.93851463,  0.59261706,  1.21240295,
+        -0.41763453, -1.00583187, -0.11574873,  1.43548113, -0.89686172,
+        -0.64911323,  2.22410436,  1.12302895],
+       [-1.47415758,  0.68100522,  0.03203122,  0.19282673, -0.83609818,
+        -0.41763453,  0.89896224, -0.7717063 , -0.69663055, -0.89686172,
+        -0.64911323, -0.71442887, -2.14887271],
+       [ 0.62133012, -1.46841752,  1.00257707, -1.69189909,  1.38633229,
+        -0.41763453,  0.89896224,  0.45274783, -0.69663055, -0.89686172,
+         0.97635214,  0.26508221, -0.51292188],
+       [ 0.40075247,  0.68100522, -0.93851463, -0.3783023 ,  1.03847361,
+        -0.41763453, -1.00583187,  0.93378339, -0.69663055, -0.89686172,
+         0.97635214,  1.24459328,  1.12302895],
+       [ 0.84190778, -1.46841752, -0.93851463,  1.62064933, -1.58979199,
+        -0.41763453, -1.00583187, -0.20320974, -0.69663055,  4.45185073,
+        -2.27457861,  2.22410436,  1.12302895],
+       [ 1.61392956,  0.68100522,  1.00257707,  0.47839125,  0.14950142,
+        -0.41763453, -1.00583187, -0.15947923, -0.69663055,  0.82852939,
+        -0.64911323,  2.22410436,  1.12302895],
+       [-0.48155814,  0.68100522,  1.00257707, -0.14985069, -0.97137655,
+        -0.41763453,  0.89896224,  0.58393935, -0.69663055, -0.89686172,
+         0.97635214, -0.71442887, -0.51292188],
+       [ 1.50364073,  0.68100522, -0.93851463,  0.70684287, -1.029353  ,
+         2.394438  ,  0.89896224, -0.37813176, -0.69663055,  2.03630317,
+        -0.64911323,  1.24459328,  1.12302895],
+       [ 0.62133012,  0.68100522, -0.93851463,  0.76395577,  0.69061493,
+        -0.41763453, -1.00583187, -0.33440125,  1.43548113,  1.51868584,
+        -0.64911323,  1.24459328,  1.12302895],
+       [-0.48155814,  0.68100522, -0.93851463,  1.04952029, -0.06307888,
+        -0.41763453, -1.00583187, -0.94662832, -0.69663055,  1.34614673,
+        -0.64911323, -0.71442887,  1.12302895]]), 132    1
+202    0
+196    0
+75     1
+176    0
+      ..
+188    0
+71     1
+106    1
+270    0
+102    1
+Name: target, Length: 242, dtype: int64, 179    0
+228    0
+111    1
+246    0
+60     1
+      ..
+249    0
+104    1
+300    0
+193    0
+184    0
+Name: target, Length: 61, dtype: int64]
 </pre></div>
 </div>
 </div>
@@ -485,6 +1093,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 1 1 0 1 1 1 0 0 1 1 0 1 0 1 1 1 0 0 0 1 0 0 1 1 1 1 1 0 1 0 0 0 0 0 0 1
+ 1 1 1 0 1 1 1 1 0 0 1 0 0 0 0 1 1 0 0 0 1 0 0 0]
+</pre></div>
+</div>
+</div>
 </div>
 <p>di atas adalah hasil prediksi dari data uji yang telah di latih
 lalu yang harus kita lakukan adalah mengecek akurasinya</p>
@@ -492,6 +1106,12 @@ lalu yang harus kita lakukan adalah mengecek akurasinya</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy Score:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy Score:
+0.8688524590163934
 </pre></div>
 </div>
 </div>
@@ -528,13 +1148,22 @@ lalu yang harus kita lakukan adalah mengecek akurasinya</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="tugas1.html"
+       href="decision_tree.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">1.INI ADALAH TUGAS PERTAMAN SAYA MENGGUNAKAN HAMMING DISTANCE UNTUK MENGUKUR JARAK</p>
+        <p class="prev-next-title">tugas decision tree</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="ulangan.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">UTS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
