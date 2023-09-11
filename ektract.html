@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>backpropagation &#8212; My sample book</title>
+    <title>ektract suara &#8212; My sample book</title>
   
   
   
@@ -61,11 +61,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'backpropagation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ektract';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="uas pendat" href="UAS_PENDAT.html" />
-    <link rel="prev" title="UTS" href="ulangan.html" />
+    <link rel="prev" title="uas pendat" href="UAS_PENDAT.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -162,8 +161,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="decision_tree.html">tugas decision tree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uts.html">UTS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ulangan.html">UTS</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backpropagation.html">backpropagation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="UAS_PENDAT.html">uas pendat</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">ektract suara</a></li>
 </ul>
 
     </div>
@@ -235,7 +235,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbackpropagation.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fektract.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -265,7 +265,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/backpropagation.ipynb" target="_blank"
+      <li><a href="_sources/ektract.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -345,7 +345,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>backpropagation</h1>
+    <h1>ektract suara</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -359,114 +359,108 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="backpropagation">
-<h1>backpropagation<a class="headerlink" href="#backpropagation" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="ektract-suara">
+<h1>ektract suara<a class="headerlink" href="#ektract-suara" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">librosa</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kurtosis</span><span class="p">,</span> <span class="n">skew</span>
+
+<span class="n">data_fitur</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="n">direktori_audio</span> <span class="o">=</span> <span class="s1">&#39;aset&#39;</span> 
+
+
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">direktori_audio</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.wav&#39;</span><span class="p">):</span>
+        <span class="c1"># Membaca file WAV</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">direktori_audio</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Menghitung Zero Crossing Rate (ZCR)</span>
+        <span class="n">zcr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">zero_crossing_rate</span><span class="p">(</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Menghitung mean, median, dan standar deviasi</span>
+        <span class="n">mean_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">median_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">std_deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        
+        <span class="c1"># Menghitung kurtosis dan skewness</span>
+        <span class="n">kurtosis_value</span> <span class="o">=</span> <span class="n">kurtosis</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">skewness_value</span> <span class="o">=</span> <span class="n">skew</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># Mendapatkan label berdasarkan nama file atau sumber data lainnya</span>
+        <span class="c1"># Misalnya, jika nama file mengandung label emosi, Anda dapat mengambilnya dari nama file.</span>
+        <span class="n">label_emosi</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Contoh: &quot;senang_audio.wav&quot; akan menghasilkan label &quot;senang&quot;</span>
+
+        <span class="c1"># Menyimpan hasil dalam dictionary</span>
+        <span class="n">fitur_audio</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Nama File&#39;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s1">&#39;ZCR&#39;</span><span class="p">:</span> <span class="n">zcr</span><span class="p">,</span>
+            <span class="s1">&#39;Mean&#39;</span><span class="p">:</span> <span class="n">mean_value</span><span class="p">,</span>
+            <span class="s1">&#39;Median&#39;</span><span class="p">:</span> <span class="n">median_value</span><span class="p">,</span>
+            <span class="s1">&#39;Std Deviasi&#39;</span><span class="p">:</span> <span class="n">std_deviation</span><span class="p">,</span>
+            <span class="s1">&#39;Kurtosis&#39;</span><span class="p">:</span> <span class="n">kurtosis_value</span><span class="p">,</span>
+            <span class="s1">&#39;Skewness&#39;</span><span class="p">:</span> <span class="n">skewness_value</span><span class="p">,</span>
+            <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="n">label_emosi</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Menambahkan dictionary ke list data_fitur</span>
+        <span class="n">data_fitur</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fitur_audio</span><span class="p">)</span>
+
+<span class="c1"># Membuat DataFrame Pandas dari data_fitur</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_fitur</span><span class="p">)</span>
+
+<span class="c1"># Menyimpan data ke file CSV jika diperlukan</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;hasil.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>inisialisasi data pada jaringan saraf tiruan adalah untuk menyiapkan data yang diperlukan dalam pelatihan dan pengujian model. Dalam hal ini, data harus terdiri dari input dan output yang sudah ditentukan terlebih dahulu dan harus memiliki jumlah dan bentuk yang sesuai dengan kebutuhan model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>lalu akan di inisialisasikan bobot dengan acak</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># bobot dari input ke hidden layer</span>
-<span class="n">w2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># bobot dari hidden layer ke output</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Fungsi aktivasi sogmoid untuk menghasilkan output yang bernilai antara 0 dan 1, dan digunakan untuk mengaktifkan (mengubah output menjadi nilai yang lebih besar) atau mematikan (mengubah output menjadi nilai yang lebih kecil) neuron dalam jaringan.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Turunan dari fungsi sigmoid ini sering digunakan dalam proses pelatihan jaringan saraf tiruan menggunakan algoritma backpropagation, yang memerlukan perhitungan gradien (turunan) dari setiap neuron dalam jaringan. Dalam hal ini, turunan dari fungsi aktivasi sigmoid digunakan untuk menghitung gradien dari setiap neuron pada lapisan tersembunyi (hidden layer) dan lapisan output.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sigmoid_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>training model menggunakan algoritma backpropagation ,Dalam proses training, algoritma backpropagation berusaha untuk menemukan set bobot dan bias yang dapat meminimalkan error atau loss pada jaringan saraf, sehingga jaringan tersebut dapat melakukan prediksi yang akurat pada data baru.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">5000</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>forward propagation bertujuan untuk menghitung nilai output dari jaringan saraf tiruan (neural network) berdasarkan input yang diberikan pada awalnya</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-    <span class="n">hidden_layer_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">w1</span><span class="p">)</span>
-    <span class="n">hidden_layer_output</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">hidden_layer_input</span><span class="p">)</span>
-    <span class="n">output_layer_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hidden_layer_output</span><span class="p">,</span> <span class="n">w2</span><span class="p">)</span>
-    <span class="n">predicted_output</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">output_layer_input</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>selanjutnya menghitung eror</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">error</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">predicted_output</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>backward propagation bertujuan untuk menghitung gradien (turunan) dari setiap parameter (bobot dan bias) dalam jaringan saraf tiruan (neural network) berdasarkan error yang dihasilkan pada langkah forward propagation.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_predicted_output</span> <span class="o">=</span> <span class="n">error</span> <span class="o">*</span> <span class="n">sigmoid_derivative</span><span class="p">(</span><span class="n">predicted_output</span><span class="p">)</span>
-<span class="n">error_hidden_layer</span> <span class="o">=</span> <span class="n">d_predicted_output</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-<span class="n">d_hidden_layer</span> <span class="o">=</span> <span class="n">error_hidden_layer</span> <span class="o">*</span> <span class="n">sigmoid_derivative</span><span class="p">(</span><span class="n">hidden_layer_output</span><span class="p">)</span>
-    
-</pre></div>
-</div>
-</div>
-</div>
-<p>update bobot bertujuan untuk memperbaiki performa model dan meningkatkan kemampuan prediksi jaringan saraf tiruan (neural network) pada data baru. Proses update bobot dilakukan pada setiap iterasi pada proses training menggunakan algoritma backpropagation.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2</span> <span class="o">+=</span> <span class="n">hidden_layer_output</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d_predicted_output</span><span class="p">)</span> <span class="o">*</span> <span class="n">learning_rate</span>
-<span class="n">w1</span> <span class="o">+=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d_hidden_layer</span><span class="p">)</span> <span class="o">*</span> <span class="n">learning_rate</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>prediksi data baru pada jaringan saraf tiruan (neural network) adalah untuk menghasilkan nilai output atau kelas yang tepat berdasarkan data input yang diberikan. Dalam konteks supervised learning, prediksi data baru dilakukan dengan menggunakan model yang telah dilatih dengan data training.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">hidden_layer_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">w1</span><span class="p">)</span>
-<span class="n">hidden_layer_output</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">hidden_layer_input</span><span class="p">)</span>
-<span class="n">output_layer_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hidden_layer_output</span><span class="p">,</span> <span class="n">w2</span><span class="p">)</span>
-<span class="n">predicted_output</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">output_layer_input</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">predicted_output</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Membaca file CSV yang berisi data fitur audio</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;hasil.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Menampilkan isi file CSV</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.62955849]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>            Nama File                                                ZCR  \
+0         03a01Fa.wav  [0.01855469 0.03662109 0.06152344 0.10839844 0...   
+1     03a01maraha.wav  [0.01513672 0.02880859 0.05322266 0.07666016 0...   
+2    03a01netralc.wav  [0.00585938 0.01171875 0.03662109 0.046875   0...   
+3         03a02Fc.wav  [0.04394531 0.07617188 0.09765625 0.09277344 0...   
+4     03a02marahb.wav  [0.09375    0.10693359 0.15771484 0.12451172 0...   
+..                ...                                                ...   
+530   16b10marahb.wav  [0.05859375 0.13134766 0.15722656 0.17236328 0...   
+531   16b10sedihb.wav  [0.01708984 0.02148438 0.06494141 0.14892578 0...   
+532   16b10takuta.wav  [0.03320312 0.09667969 0.18261719 0.17333984 0...   
+533       16b10Tb.wav  [0.00634766 0.02880859 0.08251953 0.13769531 0...   
+534       16b10Td.wav  [0.01025391 0.01660156 0.10595703 0.11181641 0...   
+
+         Mean    Median  Std Deviasi   Kurtosis  Skewness             Label  
+0   -0.000311  0.000122     0.082317  18.738257  0.082639       03a01Fa.wav  
+1   -0.000296 -0.000214     0.127394   9.606753  0.157414   03a01maraha.wav  
+2   -0.000312  0.000336     0.125304   8.155395 -0.362300  03a01netralc.wav  
+3   -0.000171  0.000183     0.124483   7.799452 -0.143426       03a02Fc.wav  
+4   -0.000284  0.000397     0.104075   9.133885  0.024495   03a02marahb.wav  
+..        ...       ...          ...        ...       ...               ...  
+530 -0.000464 -0.000305     0.095558  10.149285  0.583385   16b10marahb.wav  
+531 -0.000268  0.000946     0.128195   7.935100 -0.612341   16b10sedihb.wav  
+532 -0.000569  0.000000     0.159642   4.239009 -0.477119   16b10takuta.wav  
+533 -0.001218 -0.000580     0.181514   2.699004 -0.321153       16b10Tb.wav  
+534 -0.001157 -0.002289     0.119185   4.089120  0.252139       16b10Td.wav  
+
+[535 rows x 8 columns]
 </pre></div>
 </div>
 </div>
@@ -502,22 +496,13 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ulangan.html"
+       href="UAS_PENDAT.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">UTS</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="UAS_PENDAT.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">uas pendat</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
