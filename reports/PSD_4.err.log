@@ -1,0 +1,58 @@
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\asyncio\base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python310\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import os
+
+# Tentukan direktori tempat file WAV berada
+direktori = 'suara'
+
+# List semua file dalam direktori
+files = os.listdir(direktori)
+
+# Dictionary untuk melacak berapa kali kata "angry" muncul dalam nama file
+count_dict = {}
+
+# Loop melalui setiap file dalam direktori
+for file in files:
+    if file.endswith('.wav') and 'ps' in file:  # Pastikan itu adalah file WAV dan mengandung kata "angry"
+        old_name = os.path.join(direktori, file)
+        
+        # Hitung berapa kali kata "angry" muncul dalam nama file
+        count = count_dict.get('ps', 0)
+        
+        # Membuat nama baru dengan angka yang bertambah
+        new_name = os.path.join(direktori, f'ps{count + 1}.wav')
+        count_dict['ps'] = count + 1
+        
+        os.rename(old_name, new_name)
+        print(f'Mengganti nama {old_name} menjadi {new_name}')
+
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mFileExistsError[0m                           Traceback (most recent call last)
+Cell [1;32mIn[1], line 24[0m
+[0;32m     21[0m new_name [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mjoin(direktori, [38;5;124mf[39m[38;5;124m'[39m[38;5;124mps[39m[38;5;132;01m{[39;00mcount[38;5;250m [39m[38;5;241m+[39m[38;5;250m [39m[38;5;241m1[39m[38;5;132;01m}[39;00m[38;5;124m.wav[39m[38;5;124m'[39m)
+[0;32m     22[0m count_dict[[38;5;124m'[39m[38;5;124mps[39m[38;5;124m'[39m] [38;5;241m=[39m count [38;5;241m+[39m [38;5;241m1[39m
+[1;32m---> 24[0m [43mos[49m[38;5;241;43m.[39;49m[43mrename[49m[43m([49m[43mold_name[49m[43m,[49m[43m [49m[43mnew_name[49m[43m)[49m
+[0;32m     25[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m'[39m[38;5;124mMengganti nama [39m[38;5;132;01m{[39;00mold_name[38;5;132;01m}[39;00m[38;5;124m menjadi [39m[38;5;132;01m{[39;00mnew_name[38;5;132;01m}[39;00m[38;5;124m'[39m)
+
+[1;31mFileExistsError[0m: [WinError 183] Cannot create a file when that file already exists: 'suara\\ps10.wav' -> 'suara\\ps2.wav'
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 'suara\\ps10.wav' -> 'suara\\ps2.wav'
+
